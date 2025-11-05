@@ -1,0 +1,816 @@
+Recipe Mgmt Using MongoDB:
+
+use recipes
+
+switched to db recipes
+
+db.recipes.insertMany([
+  [
+  {
+    "recipe_id": 1,
+    "name": "Spaghetti Carbonara",
+    "ingredients": [
+      "Spaghetti",
+      "Eggs",
+      "Pancetta",
+      "Parmesan",
+      "Black Pepper"
+    ],
+    "cuisine": "Italian",
+    "prep_time": 20,
+    "difficulty": "easy",
+    "price": 500
+  },
+  {
+    "recipe_id": 2,
+    "name": "Chicken Biryani",
+    "ingredients": ["Rice", "Chicken", "Yogurt", "Spices", "Onion"],
+    "cuisine": "Indian",
+    "prep_time": 60,
+    "difficulty": "medium",
+    "price": 800
+  },
+  {
+    "recipe_id": 3,
+    "name": "Sushi",
+    "ingredients": ["Rice", "Nori", "Fish", "Soy Sauce", "Wasabi"],
+    "cuisine": "Japanese",
+    "prep_time": 50,
+    "difficulty": "hard",
+    "price": 1200
+  },
+  {
+    "recipe_id": 4,
+    "name": "Caesar Salad",
+    "ingredients": [
+      "Romaine Lettuce",
+      "Croutons",
+      "Parmesan",
+      "Caesar Dressing"
+    ],
+    "cuisine": "American",
+    "prep_time": 15,
+    "difficulty": "easy",
+    "price": 400
+  },
+  {
+    "recipe_id": 5,
+    "name": "Tacos",
+    "ingredients": ["Tortilla", "Beef", "Lettuce", "Cheese", "Tomato"],
+    "cuisine": "Mexican",
+    "prep_time": 25,
+    "difficulty": "easy",
+    "price": 450
+  },
+  {
+    "recipe_id": 6,
+    "name": "Ratatouille",
+    "ingredients": ["Eggplant", "Tomato", "Zucchini", "Bell Pepper", "Onion"],
+    "cuisine": "French",
+    "prep_time": 40,
+    "difficulty": "medium",
+    "price": 700
+  },
+  {
+    "recipe_id": 7,
+    "name": "Pad Thai",
+    "ingredients": ["Rice Noodles", "Shrimp", "Peanuts", "Bean Sprouts", "Egg"],
+    "cuisine": "Thai",
+    "prep_time": 30,
+    "difficulty": "medium",
+    "price": 600
+  },
+  {
+    "recipe_id": 8,
+    "name": "Beef Wellington",
+    "ingredients": ["Beef", "Puff Pastry", "Mushrooms", "Egg", "Butter"],
+    "cuisine": "British",
+    "prep_time": 90,
+    "difficulty": "hard",
+    "price": 1500
+  },
+  {
+    "recipe_id": 9,
+    "name": "Falafel",
+    "ingredients": ["Chickpeas", "Onion", "Garlic", "Parsley", "Spices"],
+    "cuisine": "Middle Eastern",
+    "prep_time": 35,
+    "difficulty": "medium",
+    "price": 350
+  },
+  {
+    "recipe_id": 10,
+    "name": "Tom Yum Soup",
+    "ingredients": ["Shrimp", "Lemongrass", "Mushrooms", "Lime", "Chili"],
+    "cuisine": "Thai",
+    "prep_time": 25,
+    "difficulty": "medium",
+    "price": 550
+  }
+]
+
+])
+
+Output: 
+
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('690ae7dfee9326a24283e6d9')
+  }
+}
+
+// 1. Retrieve all recipes with cuisine "Italian"
+db.recipes.find({ cuisine: "Italian" })
+
+// Output:
+[
+  {
+    _id: ObjectId("..."),
+    recipe_id: 1,
+    name: 'Spaghetti Carbonara',
+    ingredients: [ 'Spaghetti', 'Eggs', 'Pancetta', 'Parmesan', 'Black Pepper' ],
+    cuisine: 'Italian',
+    prep_time: 20,
+    difficulty: 'easy',
+    price: 500
+  }
+]
+
+// 2. Retrieve all recipes with a prep_time less than 30 minutes
+db.recipes.find({ prep_time: { $lt: 30 } })
+
+// Output:
+[
+  {
+    _id: ObjectId("..."),
+    recipe_id: 1,
+    name: 'Spaghetti Carbonara',
+    ingredients: [ 'Spaghetti', 'Eggs', 'Pancetta', 'Parmesan', 'Black Pepper' ],
+    cuisine: 'Italian',
+    prep_time: 20,
+    difficulty: 'easy',
+    price: 500
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 4,
+    name: 'Caesar Salad',
+    ingredients: [ 'Romaine Lettuce', 'Croutons', 'Parmesan', 'Caesar Dressing' ],
+    cuisine: 'American',
+    prep_time: 15,
+    difficulty: 'easy',
+    price: 400
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 5,
+    name: 'Tacos',
+    ingredients: [ 'Tortilla', 'Beef', 'Lettuce', 'Cheese', 'Tomato' ],
+    cuisine: 'Mexican',
+    prep_time: 25,
+    difficulty: 'easy',
+    price: 450
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 10,
+    name: 'Tom Yum Soup',
+    ingredients: [ 'Shrimp', 'Lemongrass', 'Mushrooms', 'Lime', 'Chili' ],
+    cuisine: 'Thai',
+    prep_time: 25,
+    difficulty: 'medium',
+    price: 550
+  }
+]
+
+// 3. Retrieve all recipes where the price is greater than 500
+db.recipes.find({ price: { $gt: 500 } })
+
+// Output:
+[
+  {
+    _id: ObjectId("..."),
+    recipe_id: 2,
+    name: 'Chicken Biryani',
+    ingredients: [ 'Rice', 'Chicken', 'Yogurt', 'Spices', 'Onion' ],
+    cuisine: 'Indian',
+    prep_time: 60,
+    difficulty: 'medium',
+    price: 800
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 3,
+    name: 'Sushi',
+    ingredients: [ 'Rice', 'Nori', 'Fish', 'Soy Sauce', 'Wasabi' ],
+    cuisine: 'Japanese',
+    prep_time: 50,
+    difficulty: 'hard',
+    price: 1200
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 6,
+    name: 'Ratatouille',
+    ingredients: [ 'Eggplant', 'Tomato', 'Zucchini', 'Bell Pepper', 'Onion' ],
+    cuisine: 'French',
+    prep_time: 40,
+    difficulty: 'medium',
+    price: 700
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 7,
+    name: 'Pad Thai',
+    ingredients: [ 'Rice Noodles', 'Shrimp', 'Peanuts', 'Bean Sprouts', 'Egg' ],
+    cuisine: 'Thai',
+    prep_time: 30,
+    difficulty: 'medium',
+    price: 600
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 8,
+    name: 'Beef Wellington',
+    ingredients: [ 'Beef', 'Puff Pastry', 'Mushrooms', 'Egg', 'Butter' ],
+    cuisine: 'British',
+    prep_time: 90,
+    difficulty: 'hard',
+    price: 1500
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 10,
+    name: 'Tom Yum Soup',
+    ingredients: [ 'Shrimp', 'Lemongrass', 'Mushrooms', 'Lime', 'Chili' ],
+    cuisine: 'Thai',
+    prep_time: 25,
+    difficulty: 'medium',
+    price: 550
+  }
+]
+
+// 4. Retrieve all recipes sorted by price in ascending order
+db.recipes.find().sort({ price: 1 })
+
+// Output:
+[
+  {
+    _id: ObjectId("..."),
+    recipe_id: 9,
+    name: 'Falafel',
+    ingredients: [ 'Chickpeas', 'Onion', 'Garlic', 'Parsley', 'Spices' ],
+    cuisine: 'Middle Eastern',
+    prep_time: 35,
+    difficulty: 'medium',
+    price: 350
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 4,
+    name: 'Caesar Salad',
+    ingredients: [ 'Romaine Lettuce', 'Croutons', 'Parmesan', 'Caesar Dressing' ],
+    cuisine: 'American',
+    prep_time: 15,
+    difficulty: 'easy',
+    price: 400
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 5,
+    name: 'Tacos',
+    ingredients: [ 'Tortilla', 'Beef', 'Lettuce', 'Cheese', 'Tomato' ],
+    cuisine: 'Mexican',
+    prep_time: 25,
+    difficulty: 'easy',
+    price: 450
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 1,
+    name: 'Spaghetti Carbonara',
+    ingredients: [ 'Spaghetti', 'Eggs', 'Pancetta', 'Parmesan', 'Black Pepper' ],
+    cuisine: 'Italian',
+    prep_time: 20,
+    difficulty: 'easy',
+    price: 500
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 10,
+    name: 'Tom Yum Soup',
+    ingredients: [ 'Shrimp', 'Lemongrass', 'Mushrooms', 'Lime', 'Chili' ],
+    cuisine: 'Thai',
+    prep_time: 25,
+    difficulty: 'medium',
+    price: 550
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 7,
+    name: 'Pad Thai',
+    ingredients: [ 'Rice Noodles', 'Shrimp', 'Peanuts', 'Bean Sprouts', 'Egg' ],
+    cuisine: 'Thai',
+    prep_time: 30,
+    difficulty: 'medium',
+    price: 600
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 6,
+    name: 'Ratatouille',
+    ingredients: [ 'Eggplant', 'Tomato', 'Zucchini', 'Bell Pepper', 'Onion' ],
+    cuisine: 'French',
+    prep_time: 40,
+    difficulty: 'medium',
+    price: 700
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 2,
+    name: 'Chicken Biryani',
+    ingredients: [ 'Rice', 'Chicken', 'Yogurt', 'Spices', 'Onion' ],
+    cuisine: 'Indian',
+    prep_time: 60,
+    difficulty: 'medium',
+    price: 800
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 3,
+    name: 'Sushi',
+    ingredients: [ 'Rice', 'Nori', 'Fish', 'Soy Sauce', 'Wasabi' ],
+    cuisine: 'Japanese',
+    prep_time: 50,
+    difficulty: 'hard',
+    price: 1200
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 8,
+    name: 'Beef Wellington',
+    ingredients: [ 'Beef', 'Puff Pastry', 'Mushrooms', 'Egg', 'Butter' ],
+    cuisine: 'British',
+    prep_time: 90,
+    difficulty: 'hard',
+    price: 1500
+  }
+]
+
+// 5. Update the price of the recipe with recipe_id: 2 (Chicken Biryani) to 900
+db.recipes.updateOne({ recipe_id: 2 }, { $set: { price: 900 } })
+
+// Output:
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+// 6. Retrieve only the name and price fields for all recipes
+db.recipes.find({}, { name: 1, price: 1, _id: 0 })
+
+// Output:
+[
+  { name: 'Spaghetti Carbonara', price: 500 },
+  { name: 'Chicken Biryani', price: 900 },
+  { name: 'Sushi', price: 1200 },
+  { name: 'Caesar Salad', price: 400 },
+  { name: 'Tacos', price: 450 },
+  { name: 'Ratatouille', price: 700 },
+  { name: 'Pad Thai', price: 600 },
+  { name: 'Beef Wellington', price: 1500 },
+  { name: 'Falafel', price: 350 },
+  { name: 'Tom Yum Soup', price: 550 }
+]
+
+// 7. Retrieve all recipes where the difficulty is "medium" and the price is less than 600
+db.recipes.find({ difficulty: "medium", price: { $lt: 600 } })
+
+// Output:
+[
+  {
+    _id: ObjectId("..."),
+    recipe_id: 9,
+    name: 'Falafel',
+    ingredients: [ 'Chickpeas', 'Onion', 'Garlic', 'Parsley', 'Spices' ],
+    cuisine: 'Middle Eastern',
+    prep_time: 35,
+    difficulty: 'medium',
+    price: 350
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 10,
+    name: 'Tom Yum Soup',
+    ingredients: [ 'Shrimp', 'Lemongrass', 'Mushrooms', 'Lime', 'Chili' ],
+    cuisine: 'Thai',
+    prep_time: 25,
+    difficulty: 'medium',
+    price: 550
+  }
+]
+
+// 8. Retrieve all recipes sorted by prep_time in descending order
+db.recipes.find().sort({ prep_time: -1 })
+
+// Output:
+[
+  {
+    _id: ObjectId("..."),
+    recipe_id: 8,
+    name: 'Beef Wellington',
+    ingredients: [ 'Beef', 'Puff Pastry', 'Mushrooms', 'Egg', 'Butter' ],
+    cuisine: 'British',
+    prep_time: 90,
+    difficulty: 'hard',
+    price: 1500
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 2,
+    name: 'Chicken Biryani',
+    ingredients: [ 'Rice', 'Chicken', 'Yogurt', 'Spices', 'Onion' ],
+    cuisine: 'Indian',
+    prep_time: 60,
+    difficulty: 'medium',
+    price: 900
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 3,
+    name: 'Sushi',
+    ingredients: [ 'Rice', 'Nori', 'Fish', 'Soy Sauce', 'Wasabi' ],
+    cuisine: 'Japanese',
+    prep_time: 50,
+    difficulty: 'hard',
+    price: 1200
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 6,
+    name: 'Ratatouille',
+    ingredients: [ 'Eggplant', 'Tomato', 'Zucchini', 'Bell Pepper', 'Onion' ],
+    cuisine: 'French',
+    prep_time: 40,
+    difficulty: 'medium',
+    price: 700
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 9,
+    name: 'Falafel',
+    ingredients: [ 'Chickpeas', 'Onion', 'Garlic', 'Parsley', 'Spices' ],
+    cuisine: 'Middle Eastern',
+    prep_time: 35,
+    difficulty: 'medium',
+    price: 350
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 7,
+    name: 'Pad Thai',
+    ingredients: [ 'Rice Noodles', 'Shrimp', 'Peanuts', 'Bean Sprouts', 'Egg' ],
+    cuisine: 'Thai',
+    prep_time: 30,
+    difficulty: 'medium',
+    price: 600
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 5,
+    name: 'Tacos',
+    ingredients: [ 'Tortilla', 'Beef', 'Lettuce', 'Cheese', 'Tomato' ],
+    cuisine: 'Mexican',
+    prep_time: 25,
+    difficulty: 'easy',
+    price: 450
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 10,
+    name: 'Tom Yum Soup',
+    ingredients: [ 'Shrimp', 'Lemongrass', 'Mushrooms', 'Lime', 'Chili' ],
+    cuisine: 'Thai',
+    prep_time: 25,
+    difficulty: 'medium',
+    price: 550
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 1,
+    name: 'Spaghetti Carbonara',
+    ingredients: [ 'Spaghetti', 'Eggs', 'Pancetta', 'Parmesan', 'Black Pepper' ],
+    cuisine: 'Italian',
+    prep_time: 20,
+    difficulty: 'easy',
+    price: 500
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 4,
+    name: 'Caesar Salad',
+    ingredients: [ 'Romaine Lettuce', 'Croutons', 'Parmesan', 'Caesar Dressing' ],
+    cuisine: 'American',
+    prep_time: 15,
+    difficulty: 'easy',
+    price: 400
+  }
+]
+
+// 9. Insert a new recipe
+db.recipes.insertOne({
+  recipe_id: 11,
+  name: "Chocolate Cake",
+  ingredients: ["Flour", "Sugar", "Cocoa Powder", "Eggs", "Butter"],
+  cuisine: "American",
+  prep_time: 50,
+  difficulty: "medium",
+  price: 750
+})
+
+// Output:
+{
+  acknowledged: true,
+  insertedId: ObjectId("...")
+}
+
+// 10. Delete the recipe with recipe_id: 4 (Caesar Salad)
+db.recipes.deleteOne({ recipe_id: 4 })
+
+// Output:
+{
+  acknowledged: true,
+  deletedCount: 1
+}
+
+// 11. Retrieve all recipes with cuisine "Japanese" or "Thai"
+db.recipes.find({ cuisine: { $in: ["Japanese", "Thai"] } })
+
+// Output:
+[
+  {
+    _id: ObjectId("..."),
+    recipe_id: 3,
+    name: 'Sushi',
+    ingredients: [ 'Rice', 'Nori', 'Fish', 'Soy Sauce', 'Wasabi' ],
+    cuisine: 'Japanese',
+    prep_time: 50,
+    difficulty: 'hard',
+    price: 1200
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 7,
+    name: 'Pad Thai',
+    ingredients: [ 'Rice Noodles', 'Shrimp', 'Peanuts', 'Bean Sprouts', 'Egg' ],
+    cuisine: 'Thai',
+    prep_time: 30,
+    difficulty: 'medium',
+    price: 600
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 10,
+    name: 'Tom Yum Soup',
+    ingredients: [ 'Shrimp', 'Lemongrass', 'Mushrooms', 'Lime', 'Chili' ],
+    cuisine: 'Thai',
+    prep_time: 25,
+    difficulty: 'medium',
+    price: 550
+  }
+]
+
+// 12. Retrieve all recipes where the ingredients include "Egg"
+db.recipes.find({ ingredients: "Egg" })
+
+// Output:
+[
+  {
+    _id: ObjectId("..."),
+    recipe_id: 7,
+    name: 'Pad Thai',
+    ingredients: [ 'Rice Noodles', 'Shrimp', 'Peanuts', 'Bean Sprouts', 'Egg' ],
+    cuisine: 'Thai',
+    prep_time: 30,
+    difficulty: 'medium',
+    price: 600
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 8,
+    name: 'Beef Wellington',
+    ingredients: [ 'Beef', 'Puff Pastry', 'Mushrooms', 'Egg', 'Butter' ],
+    cuisine: 'British',
+    prep_time: 90,
+    difficulty: 'hard',
+    price: 1500
+  }
+]
+
+// 13. Update the prep_time of the recipe with recipe_id: 7 (Pad Thai) to 35 minutes
+db.recipes.updateOne({ recipe_id: 7 }, { $set: { prep_time: 35 } })
+
+// Output:
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+// 14. Delete all recipes where the price is greater than 1000
+db.recipes.deleteMany({ price: { $gt: 1000 } })
+
+// Output:
+{
+  acknowledged: true,
+  deletedCount: 2
+}
+
+// 15. Retrieve the first 3 recipes using the limit function
+db.recipes.find().limit(3)
+
+// Output:
+[
+  {
+    _id: ObjectId("..."),
+    recipe_id: 1,
+    name: 'Spaghetti Carbonara',
+    ingredients: [ 'Spaghetti', 'Eggs', 'Pancetta', 'Parmesan', 'Black Pepper' ],
+    cuisine: 'Italian',
+    prep_time: 20,
+    difficulty: 'easy',
+    price: 500
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 2,
+    name: 'Chicken Biryani',
+    ingredients: [ 'Rice', 'Chicken', 'Yogurt', 'Spices', 'Onion' ],
+    cuisine: 'Indian',
+    prep_time: 60,
+    difficulty: 'medium',
+    price: 900
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 5,
+    name: 'Tacos',
+    ingredients: [ 'Tortilla', 'Beef', 'Lettuce', 'Cheese', 'Tomato' ],
+    cuisine: 'Mexican',
+    prep_time: 25,
+    difficulty: 'easy',
+    price: 450
+  }
+]
+
+// 16. Skip the first 2 recipes and retrieve the rest
+db.recipes.find().skip(2)
+
+// Output:
+[
+  {
+    _id: ObjectId("..."),
+    recipe_id: 5,
+    name: 'Tacos',
+    ingredients: [ 'Tortilla', 'Beef', 'Lettuce', 'Cheese', 'Tomato' ],
+    cuisine: 'Mexican',
+    prep_time: 25,
+    difficulty: 'easy',
+    price: 450
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 6,
+    name: 'Ratatouille',
+    ingredients: [ 'Eggplant', 'Tomato', 'Zucchini', 'Bell Pepper', 'Onion' ],
+    cuisine: 'French',
+    prep_time: 40,
+    difficulty: 'medium',
+    price: 700
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 7,
+    name: 'Pad Thai',
+    ingredients: [ 'Rice Noodles', 'Shrimp', 'Peanuts', 'Bean Sprouts', 'Egg' ],
+    cuisine: 'Thai',
+    prep_time: 35,
+    difficulty: 'medium',
+    price: 600
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 9,
+    name: 'Falafel',
+    ingredients: [ 'Chickpeas', 'Onion', 'Garlic', 'Parsley', 'Spices' ],
+    cuisine: 'Middle Eastern',
+    prep_time: 35,
+    difficulty: 'medium',
+    price: 350
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 10,
+    name: 'Tom Yum Soup',
+    ingredients: [ 'Shrimp', 'Lemongrass', 'Mushrooms', 'Lime', 'Chili' ],
+    cuisine: 'Thai',
+    prep_time: 25,
+    difficulty: 'medium',
+    price: 550
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 11,
+    name: 'Chocolate Cake',
+    ingredients: [ 'Flour', 'Sugar', 'Cocoa Powder', 'Eggs', 'Butter' ],
+    cuisine: 'American',
+    prep_time: 50,
+    difficulty: 'medium',
+    price: 750
+  }
+]
+
+// 17. Retrieve all recipes with cuisine "Thai" and sort them by price in descending order
+db.recipes.find({ cuisine: "Thai" }).sort({ price: -1 })
+
+// Output:
+[
+  {
+    _id: ObjectId("..."),
+    recipe_id: 7,
+    name: 'Pad Thai',
+    ingredients: [ 'Rice Noodles', 'Shrimp', 'Peanuts', 'Bean Sprouts', 'Egg' ],
+    cuisine: 'Thai',
+    prep_time: 35,
+    difficulty: 'medium',
+    price: 600
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 10,
+    name: 'Tom Yum Soup',
+    ingredients: [ 'Shrimp', 'Lemongrass', 'Mushrooms', 'Lime', 'Chili' ],
+    cuisine: 'Thai',
+    prep_time: 25,
+    difficulty: 'medium',
+    price: 550
+  }
+]
+
+// 18. Insert another new recipe
+db.recipes.insertOne({
+  recipe_id: 12,
+  name: "Hummus",
+  ingredients: ["Chickpeas", "Tahini", "Garlic", "Olive Oil", "Lemon Juice"],
+  cuisine: "Middle Eastern",
+  prep_time: 15,
+  difficulty: "easy",
+  price: 300
+})
+
+// Output:
+{
+  acknowledged: true,
+  insertedId: ObjectId("...")
+}
+
+// 19. Count the number of recipes with difficulty "easy"
+db.recipes.countDocuments({ difficulty: "easy" })
+
+// Output:
+3
+
+// 20. Retrieve all recipes with a prep_time greater than 40 minutes
+db.recipes.find({ prep_time: { $gt: 40 } })
+
+// Output:
+[
+  {
+    _id: ObjectId("..."),
+    recipe_id: 2,
+    name: 'Chicken Biryani',
+    ingredients: [ 'Rice', 'Chicken', 'Yogurt', 'Spices', 'Onion' ],
+    cuisine: 'Indian',
+    prep_time: 60,
+    difficulty: 'medium',
+    price: 900
+  },
+  {
+    _id: ObjectId("..."),
+    recipe_id: 11,
+    name: 'Chocolate Cake',
+    ingredients: [ 'Flour', 'Sugar', 'Cocoa Powder', 'Eggs', 'Butter' ],
+    cuisine: 'American',
+    prep_time: 50,
+    difficulty: 'medium',
+    price: 750
+  }
+]
+
+
